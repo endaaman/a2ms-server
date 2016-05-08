@@ -1,0 +1,9 @@
+a2ms:
+  extends:
+    file: /var/apps/a2ms/docker-compose.yml
+    service: a2ms
+
+a2ms-api:
+  extends:
+    file: /var/apps/a2ms-api/docker-compose.yml
+    service: a2ms-api

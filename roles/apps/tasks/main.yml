@@ -1,0 +1,34 @@
+---
+- name: mkdir /var/apps
+  file: >
+    path=/var/apps state=directory
+    owner=root group=root
+
+# upload dir
+- name: mkdir /var/uploaded/a2ms
+  file: >
+    path=/var/uploaded/a2ms state=directory
+    owner=root group=root mode=0755
+
+# common : /var/apps/docker-compose.yml
+- name: put /var/apps/docker-compose.yml
+  copy: >
+    src=roles/apps/templates/docker-compose.yml
+    dest=/var/apps/docker-compose.yml
+  notify: restart docker-compose
+
+# a2ms
+- name: put a2ms
+  git: >
+    repo=https://github.com/endaaman/a2ms.git
+    dest=/var/apps/a2ms
+    version=master
+  notify: restart a2ms
+
+# a2ms-api
+- name: put a2ms-api
+  git: >
+    repo=https://github.com/endaaman/a2ms-api.git
+    dest=/var/apps/a2ms-api
+    version=master
+  notify: restart a2ms-api

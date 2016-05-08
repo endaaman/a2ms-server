@@ -1,0 +1,19 @@
+---
+- hosts: a2ms
+  become: yes
+  remote_user: ken
+  roles:
+    - packages
+    - mongodb
+    - user
+    - docker
+    - apps
+
+- hosts: do
+  become: yes
+  remote_user: root
+  roles:
+    - packages
+    - mongodb
+    - docker
+    - apps
