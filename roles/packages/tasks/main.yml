@@ -8,3 +8,4 @@
     - zsh
     - curl
     - wget
+    - firewalld
