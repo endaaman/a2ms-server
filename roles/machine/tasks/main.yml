@@ -1,0 +1,12 @@
+---
+- name: start firewalld
+  service: name=firewalld state=restarted
+
+- name: set auto start firewalld
+  service: name=firewalld enabled=yes
+
+- name: open 80
+  firewalld: port=80/tcp permanent=true state=enabled
+
+- name: open 443
+  firewalld: port=443/tcp permanent=true state=enabled
