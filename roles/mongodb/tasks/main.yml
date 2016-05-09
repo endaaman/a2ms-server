@@ -11,3 +11,6 @@
 
 - name: set auto start mongodb
   service: name=mongodb enabled=yes
+
+- name: start mongodb
+  service: name=mongodb state=started
