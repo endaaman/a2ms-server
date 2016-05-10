@@ -3,19 +3,7 @@
   become: yes
   remote_user: ken
   roles:
-    - machine
     - packages
-    - mongodb
+    - machine
     - user
-    - docker
-    - apps
-
-- hosts: do
-  become: yes
-  remote_user: root
-  roles:
-    - packages
-    - machine
-    - mongodb
-    - docker
     - apps

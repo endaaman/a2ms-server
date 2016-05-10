@@ -1,5 +1,2 @@
 [a2ms]
 a2ms.med.hokudai.ac.jp:22 ansible_ssh_private_key_file=~/.ssh/a2ms
-
-[do]
-188.166.245.91:22 ansible_ssh_private_key_file=~/.ssh/do
