@@ -10,3 +10,22 @@
 
 - name: open 443
   firewalld: port=443/tcp permanent=true state=enabled
+
+- name: put mongodb.conf
+  copy: >
+    src=roles/machine/templates/mongodb.conf
+    dest=/etc/mongodb.conf
+    owner=mongodb group=mongodb
+  notify: restart mongodb
+
+- name: set auto start mongodb
+  service: name=mongodb enabled=yes
+
+- name: start mongodb
+  service: name=mongodb state=started
+
+- name: set auto start docker
+  service: name=docker enabled=yes
+
+- name: start docker
+  service: name=docker state=started
