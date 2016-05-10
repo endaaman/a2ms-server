@@ -1,6 +1,6 @@
 ---
 - name: start firewalld
-  service: name=firewalld state=restarted
+  service: name=firewalld state=started
 
 - name: set auto start firewalld
   service: name=firewalld enabled=yes
