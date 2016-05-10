@@ -19,10 +19,10 @@
   notify: restart mongodb
 
 - name: set auto start mongodb
-  service: name=mongodb enabled=yes
+  service: name=mongod enabled=yes
 
 - name: start mongodb
-  service: name=mongodb state=started
+  service: name=mongod state=started
 
 - name: set auto start docker
   service: name=docker enabled=yes
