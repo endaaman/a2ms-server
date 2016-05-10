@@ -1,18 +1,6 @@
 ---
-- name: restart docker-compose
+- name: restart containers
   shell: |
     docker-compose up -d
-  args:
-    chdir: /var/apps
-
-- name: restart a2ms
-  shell: |
-    docker-compose up -d --build a2ms
-  args:
-    chdir: /var/apps
-
-- name: restart a2ms-api
-  shell: |
-    docker-compose up -d --build a2ms-api
   args:
     chdir: /var/apps

@@ -15,7 +15,7 @@
   copy: >
     src=roles/apps/templates/docker-compose.yml
     dest=/var/apps/docker-compose.yml
-  notify: restart docker-compose
+  notify: restart containers
 
 # a2ms
 - name: put a2ms
@@ -23,7 +23,7 @@
     repo=https://github.com/endaaman/a2ms.git
     dest=/var/apps/a2ms
     version=master
-  notify: restart a2ms
+  notify: restart containers
 
 # a2ms-api
 - name: put a2ms-api
@@ -31,4 +31,4 @@
     repo=https://github.com/endaaman/a2ms-api.git
     dest=/var/apps/a2ms-api
     version=master
-  notify: restart a2ms-api
+  notify: restart containers
