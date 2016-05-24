@@ -34,7 +34,7 @@
     - zsh
     - curl
     - wget
-    - firewalld
+    - ufw
     - linux-image-extra-{{kernel_name.stdout}}
     - mongodb-org
     - docker-engine

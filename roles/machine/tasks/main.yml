@@ -1,15 +1,15 @@
 ---
-- name: start firewalld
-  service: name=firewalld state=started
+- name: deny all port defaultly
+  ufw: state=enabled policy=deny
 
-- name: set auto start firewalld
-  service: name=firewalld enabled=yes
+- name: open port 80, 443
+  ufw: state=enabled rule=allow proto=tcp port={{ item }}
+  with_items:
+    - 80
+    - 443
 
-- name: open 80
-  firewalld: port=80/tcp permanent=true state=enabled
-
-- name: open 443
-  firewalld: port=443/tcp permanent=true state=enabled
+- name: limit port 22
+  ufw: state=enabled rule=limit proto=tcp port=22
 
 - name: put mongodb.conf
   copy: >
