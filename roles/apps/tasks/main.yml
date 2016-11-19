@@ -1,34 +1,24 @@
 ---
-- name: mkdir /var/apps
+- name: mkdir /var/shared/a2ms
   file: >
-    path=/var/apps state=directory
+    path=/var/shared/a2ms state=directory
     owner=root group=root
 
-# upload dir
-- name: mkdir /var/uploaded/a2ms
-  file: >
-    path=/var/uploaded/a2ms state=directory
-    owner=root group=root mode=0755
-
-# common : /var/apps/docker-compose.yml
-- name: put /var/apps/docker-compose.yml
+- name: put /var/www/docker-compose.yml
   copy: >
-    src=roles/apps/templates/docker-compose.yml
-    dest=/var/apps/docker-compose.yml
+    src=roles/apps/files/docker-compose.yml
+    dest=/var/www/docker-compose.yml
   notify: restart containers
 
-# a2ms
-- name: put a2ms
-  git: >
-    repo=https://github.com/endaaman/a2ms.git
-    dest=/var/apps/a2ms
-    version=master
-  notify: restart containers
+- name: restart containers
+  shell: |
+    docker-compose pull && \
+    docker-compose up -d --build
+  args:
+    chdir: /var/www
 
-# a2ms-api
-- name: put a2ms-api
-  git: >
-    repo=https://github.com/endaaman/a2ms-api.git
-    dest=/var/apps/a2ms-api
-    version=master
-  notify: restart containers
+- name: clean images and containers
+  shell: |
+    docker images -q -f 'dangling=true' | xargs --no-run-if-empty docker rmi && \
+    docker ps -a -q -f 'status=exited' | xargs --no-run-if-empty docker rm -v
+

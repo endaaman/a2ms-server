@@ -2,30 +2,32 @@
 - name: deny all port defaultly
   ufw: state=enabled policy=deny
 
-- name: open port 80, 443
+- name: open tcp ports
   ufw: state=enabled rule=allow proto=tcp port={{ item }}
   with_items:
     - 80
     - 443
 
+- name: allow connnection from docker to mariadb
+  ufw: state=enabled rule=allow proto=tcp port=3306 src=172.17.42.1/16
+
 - name: limit port 22
   ufw: state=enabled rule=limit proto=tcp port=22
 
-- name: put mongodb.conf
-  copy: >
-    src=roles/machine/templates/mongodb.conf
-    dest=/etc/mongodb.conf
-    owner=mongodb group=mongodb
-  notify: restart mongodb
+- name: enable and start services
+  service: name={{ item }} enabled=yes state=started
+  with_items:
+    - mysql
+    - docker
 
-- name: set auto start mongodb
-  service: name=mongod enabled=yes
+- name: mkdir /var/shared # refuse to modify shared files
+  file: >
+    path=/var/shared state=directory
+    owner=root group=root mode=1777
 
-- name: start mongodb
-  service: name=mongod state=started
+# upload dir
+- name: mkdir /var/shared/a2ms
+  file: >
+    path=/var/shared/a2ms state=directory
+    owner=root group=root mode=0777
 
-- name: set auto start docker
-  service: name=docker enabled=yes
-
-- name: start docker
-  service: name=docker state=started

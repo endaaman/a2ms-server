@@ -1,9 +1,33 @@
 a2ms:
-  extends:
-    file: /var/apps/a2ms/docker-compose.yml
-    service: a2ms
+  container_name: a2ms
+  image: endaaman/a2ms
+  environment:
+    VIRTUAL_HOST: a2ms.med.hokudai.ac.jp,a2ms.dev
+    API_HOST: a2ms-api
+  external_links:
+   - a2ms-api
+  volumes:
+    - /var/shared/a2ms:/var/shared/a2ms
+  restart: always
 
 a2ms-api:
-  extends:
-    file: /var/apps/a2ms-api/docker-compose.yml
-    service: a2ms-api
+  image: endaaman/a2ms-api
+  container_name: a2ms-api
+  environment:
+    SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+    DB_HOST: "172.17.0.1"
+  volumes:
+    - /var/shared/a2ms:/var/shared/a2ms
+  restart;: always
+
+nginx-proxy:
+  image: endaaman/nginx-proxy
+  container_name: nginx-proxy
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - /var/certs:/etc/nginx/certs:ro
+  ports:
+    - 80:80
+    - 443:443
+  restart: always
+
