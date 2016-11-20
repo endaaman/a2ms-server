@@ -8,7 +8,6 @@
   copy: >
     src=roles/apps/files/docker-compose.yml
     dest=/var/www/docker-compose.yml
-  notify: restart containers
 
 - name: restart containers
   shell: |

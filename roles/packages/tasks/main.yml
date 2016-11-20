@@ -25,7 +25,7 @@
     - curl
     - wget
     - ufw
-    - linux-image-extra-{{kernel_name.stdout}}
+    # - linux-image-extra-{{kernel_name.stdout}}
     - mongodb-org
     - docker-engine
 
